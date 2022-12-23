@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { getEnvPath } from './common/helper/env.helper';
 import { AllExceptionsFilter } from './core/exception.interceptor';
-import { DbconfigModule } from './modules/dbconfig/dbconfig.module';
+// import { DbconfigModule } from './modules/dbconfig/dbconfig.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/env/messages`);
 
@@ -12,7 +12,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/env/messages`);
     isGlobal: true,
     envFilePath: 'msg.env',
   }),
-    DbconfigModule],
+    /*DbconfigModule*/],
   providers: [{ provide: APP_FILTER, useClass: AllExceptionsFilter }],
   controllers: [],
 
