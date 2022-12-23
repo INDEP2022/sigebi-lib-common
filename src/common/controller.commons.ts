@@ -1,6 +1,7 @@
 import { Query } from '@nestjs/common';
 import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ResponseDataDTO } from 'src/common/dtos/response.data.dto';
+import { ResponseDataDTO } from '../common/dtos/response.data.dto';
+
 import { QueryParams } from './dtos/query-params';
 import { BaseService } from './services/service.commons';
 
