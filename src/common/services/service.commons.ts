@@ -17,7 +17,8 @@ export abstract class BaseService<T> {
       message = CRUDMessages.CreateSuccess;
       status = HttpStatus.OK;
     }catch (error) {
-      message = error.message;
+      // message = error.message;
+      message = CRUDMessages.CreateError;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
    
