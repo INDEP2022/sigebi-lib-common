@@ -12,6 +12,7 @@ export abstract class BaseService<T> {
   public async create(data: T | any): Promise<ResponseDataDTO<T>> {
     var message;
     var status;
+    var count ;
     try {
       var result = await this.getRepository().save(data);
       message = CRUDMessages.CreateSuccess;
@@ -25,7 +26,7 @@ export abstract class BaseService<T> {
     //generar clase de salida
     const response = new ResponseDataDTO<T>(
       new QueryParams(Order.DESC, 1, 1),
-      1,
+      count,
       result,
       status,
       message,
@@ -39,6 +40,8 @@ export abstract class BaseService<T> {
    var count;
    try{
     const {affected} = await this.getRepository().update(id, data);
+    console.log(id);
+    console.log(data);
     var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
     var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var result = await this.getRepository().findOneById(id);
@@ -59,6 +62,7 @@ export abstract class BaseService<T> {
   }
 
   public async findOneById(id: string | any): Promise<ResponseDataDTO<T>> {
+    console.log(id);
     var result = await this.getRepository().findOne(id);
     result > 0 ? result : null;
     var status = result ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
