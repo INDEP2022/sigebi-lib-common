@@ -12,4 +12,4 @@ export * from './common/controller.commons';
 export * from './common/messages.enum';
 export * from './common/interfaces/listresult.entity';
 export * from './common/interfaces/response.data';
-export * from './modules/dbconfig/dbconfig.module';
+export * from './modules/dbconfig/dbconfig.service';

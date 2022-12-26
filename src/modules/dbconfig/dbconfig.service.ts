@@ -1,8 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { config } from 'dotenv';
-config();
 
-class DbConfigService {
+
+require('dotenv').config();
+
+class ConfigService {
   constructor(private env: { [k: string]: string | undefined }) {}
 
   private getValue(key: string, throwOnMissing = true): string {
@@ -23,10 +24,10 @@ class DbConfigService {
       type: 'postgres', 
 
       host: this.getValue('DB_HOST'), 
-      port: parseInt(this.getValue('DB_PORT')),
-      username: this.getValue('DB_USER'),
-      password: this.getValue('DB_PASSWORD'),
-      database: this.getValue('DB_NAME'),
+      port: parseInt(this.getValue('POSTGRES_PORT')),
+      username: this.getValue('POSTGRES_USER'),
+      password: this.getValue('DB_PASS'),
+      database: this.getValue('POSTGRES_DB'),
       entities: ['dist/**/*.entity.js'], 
       synchronize: false, 
       ssl: true,
@@ -39,12 +40,12 @@ class DbConfigService {
   }
 }
 
-const dbConfigService = new DbConfigService(process.env).ensureValues([
+const configService = new ConfigService(process.env).ensureValues([
   'DB_HOST',
-  'DB_PORT',
-  'DB_USER',
-  'DB_PASSWORD',
-  'DB_NAME',
+  'POSTGRES_PORT',
+  'POSTGRES_USER',
+  'DB_PASS',
+  'POSTGRES_DB',
 ]);
 
-export { dbConfigService };
+export { configService };
