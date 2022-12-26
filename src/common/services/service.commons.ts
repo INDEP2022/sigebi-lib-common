@@ -40,8 +40,6 @@ export abstract class BaseService<T> {
    var count;
    try{
     const {affected} = await this.getRepository().update(id, data);
-    console.log(id);
-    console.log(data);
     var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
     var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var result = await this.getRepository().findOneById(id);
