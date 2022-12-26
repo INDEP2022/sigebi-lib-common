@@ -16,10 +16,11 @@ export abstract class BaseService<T> {
       var result = await this.getRepository().save(data);
       message = CRUDMessages.CreateSuccess;
       status = HttpStatus.OK;
-    }catch (error) {
+    }catch (error: any) {
       // message = error.message;
       message = CRUDMessages.CreateError;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
+      console.log(error.message);
     }
    
     //generar clase de salida
