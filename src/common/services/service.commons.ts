@@ -18,9 +18,8 @@ export abstract class BaseService<T> {
       status = HttpStatus.OK;
     }catch (error: any) {
       // message = error.message;
-      message = CRUDMessages.CreateError;
+      message = error.message;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
-      console.log(error.message);
     }
    
     //generar clase de salida
@@ -35,11 +34,19 @@ export abstract class BaseService<T> {
   }
 
   public async update(id: string | any, data: T | any): Promise<ResponseDataDTO<T>> {
-   const {affected} = await this.getRepository().update(id, data);
-   var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
-   var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+   
+   
    var count;
-    const result = await this.getRepository().findOneById(id);
+   try{
+    const {affected} = await this.getRepository().update(id, data);
+    var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
+    var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+    var result = await this.getRepository().findOneById(id);
+   }catch(error:any){
+    message = error.message;
+    status = HttpStatus.INTERNAL_SERVER_ERROR;
+   }
+   
     //generar clase de salida
     const response = new ResponseDataDTO<T>(
       new QueryParams(Order.DESC, 1, 1),
@@ -97,8 +104,14 @@ export abstract class BaseService<T> {
     //paginar
     queryBuilder.skip(skip ? skip : 0).take(queryParams.take || 10);
     // queryBuilder.skip(skip ? skip -1 : 0).take(queryParams.take || 10);
-    const itemsCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
+    try {
+      var itemsCount = await queryBuilder.getCount();
+      var { entities } = await queryBuilder.getRawAndEntities();
+    }catch (error:any) {
+      message = error.message;
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+    
     const array = entities;
     var status = array.length > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var message = array.length > 0 ? CRUDMessages.GetSuccess : CRUDMessages.GetNotfound;
@@ -114,15 +127,23 @@ export abstract class BaseService<T> {
   }
 
   public async remove(id: string | any): Promise<ResponseDataDTO<T>> {
-    const {affected} = await this.getRepository().delete(id);
-    //generar clase de salida
-    var message = affected > 0 ? CRUDMessages.DeleteSuccess : CRUDMessages.DeleteError;
-    var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var count;
+    var message;var status
+    var ok = 0;
+    try{
+      const {affected} = await this.getRepository().delete(id);
+      message = affected > 0 ? CRUDMessages.DeleteSuccess : CRUDMessages.DeleteError;
+      status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+      ok = affected;
+    }catch (error:any) {
+      message = error.message;
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+   
     const response = new ResponseDataDTO<T>(
       new QueryParams(Order.DESC, 1, 1),
       count,
-      affected,
+      ok,
       status,
       message,
     );
