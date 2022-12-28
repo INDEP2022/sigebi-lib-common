@@ -60,9 +60,8 @@ export abstract class BaseService<T> {
   }
 
   public async findOneById(id: string | any): Promise<ResponseDataDTO<T>> {
-    console.log(id);
     var result = await this.getRepository().findOne(id);
-    result > 0 ? result : null;
+    parseInt(`${result}`) > 0 ? result : null;
     var status = result ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var message = result ? CRUDMessages.GetSuccess : CRUDMessages.GetNotfound;
     var count = result ? 1 : 0;
