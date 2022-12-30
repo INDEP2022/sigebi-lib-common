@@ -1,4 +1,4 @@
-  {
+{
   "name": "sigebi-lib-common",
   "version": "1.0.0",
   "description": "",
@@ -19,9 +19,8 @@
     "url": "https://github.com/INDEP2022/sigebi-lib-common/issues"
   },
   "homepage": "https://github.com/INDEP2022/sigebi-lib-common#readme",
-
   "dependencies": {
-    "@nestjs/common": "^8.0.0",
+    "@nestjs/common": "^8.4.7",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/microservices": "^8.4.7",
@@ -29,18 +28,20 @@
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/terminus": "^8.1.0",
     "@nestjs/typeorm": "^8.1.4",
+    "@types/node": "^18.11.18",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.1",
     "nest-winston": "^1.6.2",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "postgres": "^3.2.4",
+    "postgres": "^3.3.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0",
+    "rxjs": "^7.8.0",
     "swagger-ui-express": "^4.4.0",
-    "typeorm": "^0.3.6",
+    "typeorm": "^0.3.11",
+    "typescript": "^4.9.4",
     "winston": "^3.8.0"
   }
 }
