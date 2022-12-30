@@ -23,11 +23,11 @@ class ConfigService {
     return {
       type: 'postgres', 
 
-      host: this.getValue('DB_HOST'), 
-      port: parseInt(this.getValue('POSTGRES_PORT')),
-      username: this.getValue('POSTGRES_USER'),
-      password: this.getValue('DB_PASS'),
-      database: this.getValue('POSTGRES_DB'),
+      host: this.getValue('DB_HOST') || 'psql-sigebi-qa.postgres.database.azure.com', 
+      port: parseInt(this.getValue('POSTGRES_PORT')) || 5432,
+      username: this.getValue('POSTGRES_USER') || 'dbsigebiadmon',
+      password: this.getValue('DB_PASS') || 's1g3b1@22',
+      database: this.getValue('POSTGRES_DB') || 'psql-sigebi',
       entities: ['dist/**/*.entity.js'], 
       synchronize: false, 
       ssl: true,
