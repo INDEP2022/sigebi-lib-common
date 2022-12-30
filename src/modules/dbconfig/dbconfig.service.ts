@@ -20,23 +20,47 @@ class ConfigService {
   }
 
   public getTypeOrmConfig(): TypeOrmModuleOptions { 
-    return {
-      type: 'postgres', 
+    console.log('Envriroment: ' + process.env.NODE_ENV);
+    const nodeEnv = process.env.NODE_ENV || "development";
 
-      host: this.getValue('DB_HOST') || 'psql-sigebi-qa.postgres.database.azure.com', 
-      port: parseInt(this.getValue('POSTGRES_PORT')) || 5432,
-      username: this.getValue('POSTGRES_USER') || 'dbsigebiadmon',
-      password: this.getValue('DB_PASS') || 's1g3b1@22',
-      database: this.getValue('POSTGRES_DB') || 'psql-sigebi',
-      entities: ['dist/**/*.entity.js'], 
-      synchronize: false, 
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      }
-    };
+    console.log('Envriroment: ' + nodeEnv);
+
+    if(nodeEnv !=='production'){
+      return {
+        type: 'postgres', 
+
+        host: this.getValue('DB_HOST') || 'psql-sigebi-qa.postgres.database.azure.com', 
+        port: parseInt(this.getValue('POSTGRES_PORT')) || 5432,
+        username: this.getValue('POSTGRES_USER') || 'dbsigebiadmon',
+        password: this.getValue('DB_PASS') || 's1g3b1@22',
+        database: this.getValue('POSTGRES_DB') || 'psql-sigebi',
+        entities: ['dist/**/*.entity.js'], 
+        synchronize: false, 
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        }
+      };
+    }else{
+      return {
+        type: 'postgres',
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.POSTGRES_PORT),
+        username: process.env.POSTGRES_USER,
+        password: process.env.DB_PASS,
+        database: process.env.POSTGRES_DB,
+        entities: ['dist/**/*.entity.js'], 
+        synchronize: false, 
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        }
+      };      
+    }
   }
 }
 
