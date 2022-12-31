@@ -24,7 +24,7 @@ class ConfigService {
     const nodeEnv = process.env.NODE_ENV || "development";
 
     console.log('Envriroment: ' + nodeEnv);
-
+/*
     if(nodeEnv !=='production'){
       return {
         type: 'postgres', 
@@ -34,7 +34,7 @@ class ConfigService {
         username: this.getValue('POSTGRES_USER') || 'dbsigebiadmon',
         password: this.getValue('DB_PASS') || 's1g3b1@22',
         database: this.getValue('POSTGRES_DB') || 'psql-sigebi',
-        entities: ['dist/**/*.entity.js'], 
+        entities: ['dist.entity.js'], 
         synchronize: false, 
         ssl: true,
         extra: {
@@ -44,6 +44,7 @@ class ConfigService {
         }
       };
     }else{
+      */
       return {
         type: 'postgres',
         host: process.env.DB_HOST,
@@ -60,7 +61,7 @@ class ConfigService {
           },
         }
       };      
-    }
+    //}
   }
 }
 
