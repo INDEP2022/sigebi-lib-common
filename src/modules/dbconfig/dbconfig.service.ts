@@ -64,14 +64,5 @@ class ConfigService {
     //}
   }
 }
-/*
-const configService = new ConfigService(process.env).ensureValues([
-  'DB_HOST',
-  'POSTGRES_PORT',
-  'POSTGRES_USER',
-  'DB_PASS',
-  'POSTGRES_DB',
-]);
-*/
 const configService = new ConfigService(process.env);
 export { configService };
