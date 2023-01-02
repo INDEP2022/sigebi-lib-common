@@ -40,9 +40,6 @@ export abstract class BaseService<T> {
    var count;
    try{
     const {affected} = await this.getRepository().update(id, data);
-    console.log(id);
-    console.log(affected);
-    console.log(data);
     var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
     var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var result = await this.getRepository().findOneById(id);
@@ -63,7 +60,6 @@ export abstract class BaseService<T> {
   }
 
   public async findOneById(id: string | any): Promise<ResponseDataDTO<T>> {
-    console.log(id);
     var result = await this.getRepository().findOne(id);
     result > 0 ? result : null;
     var status = result ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
