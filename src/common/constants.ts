@@ -8,6 +8,7 @@ export enum Comparison {
   MORE_THAN = 'MORE_THAN',
   NOT = 'NOT',
   LIKE = 'LIKE',
+  IS_NOT="IS_NOT",
 }
 export enum ConnectionNames {
   DB_SASIARAF = 'DB_SASIARAF',

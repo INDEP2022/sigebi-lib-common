@@ -12,17 +12,17 @@ export abstract class BaseService<T> {
   public async create(data: T | any): Promise<ResponseDataDTO<T>> {
     var message;
     var status;
-    var count ;
+    var count;
     try {
       var result = await this.getRepository().save(data);
       message = CRUDMessages.CreateSuccess;
       status = HttpStatus.OK;
-    }catch (error: any) {
+    } catch (error: any) {
       // message = error.message;
       message = error.message;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
-   
+
     //generar clase de salida
     const response = new ResponseDataDTO<T>(
       new QueryParams(Order.DESC, 1, 1),
@@ -35,19 +35,19 @@ export abstract class BaseService<T> {
   }
 
   public async update(id: string | any, data: T | any): Promise<ResponseDataDTO<T>> {
-   
-   
-   var count;
-   try{
-    const {affected} = await this.getRepository().update(id, data);
-    var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
-    var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-    var result = await this.getRepository().findOneById(id);
-   }catch(error:any){
-    message = error.message;
-    status = HttpStatus.INTERNAL_SERVER_ERROR;
-   }
-   
+
+
+    var count;
+    try {
+      const { affected } = await this.getRepository().update(id, data);
+      var message = affected > 0 ? CRUDMessages.UpdateSuccess : CRUDMessages.UpdateError;
+      var status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+      var result = await this.getRepository().findOneById(id);
+    } catch (error: any) {
+      message = error.message;
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+
     //generar clase de salida
     const response = new ResponseDataDTO<T>(
       new QueryParams(Order.DESC, 1, 1),
@@ -108,11 +108,11 @@ export abstract class BaseService<T> {
     try {
       var itemsCount = await queryBuilder.getCount();
       var { entities } = await queryBuilder.getRawAndEntities();
-    }catch (error:any) {
+    } catch (error: any) {
       message = error.message;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
-    
+
     const array = entities;
     var status = array.length > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     var message = array.length > 0 ? CRUDMessages.GetSuccess : CRUDMessages.GetNotfound;
@@ -129,18 +129,18 @@ export abstract class BaseService<T> {
 
   public async remove(id: string | any): Promise<ResponseDataDTO<T>> {
     var count;
-    var message;var status
+    var message; var status
     var ok = 0;
-    try{
-      const {affected} = await this.getRepository().delete(id);
+    try {
+      const { affected } = await this.getRepository().delete(id);
       message = affected > 0 ? CRUDMessages.DeleteSuccess : CRUDMessages.DeleteError;
       status = affected > 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
       ok = affected;
-    }catch (error:any) {
+    } catch (error: any) {
       message = error.message;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
-   
+
     const response = new ResponseDataDTO<T>(
       new QueryParams(Order.DESC, 1, 1),
       count,
@@ -167,7 +167,9 @@ export abstract class BaseService<T> {
       case Comparison.NOT:
         compare = '<>';
         break;
-
+      case Comparison.IS_NOT:
+        compare = 'IS NOT'
+        break;
       default:
         compare = '=';
         break;
