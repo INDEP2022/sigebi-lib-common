@@ -109,7 +109,7 @@ export abstract class BaseService<T> {
       queryParams.filters.forEach((filter) => {
         let newFilter: Filter = JSON.parse(filter.toString());
         let comparison = this.getComparer(newFilter.comparison);
-        selectString = selectString + `table.${newFilter.property} ${comparison} '${newFilter.comparison === Comparison.LIKE ? '%' : ''
+        selectString = selectString + `${newFilter.property} ${comparison} '${newFilter.comparison === Comparison.LIKE ? '%' : ''
           }${newFilter.value}${newFilter.comparison === Comparison.LIKE ? '%' : ''
           }'`;
         if (cont > 1) {
