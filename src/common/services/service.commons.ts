@@ -77,6 +77,7 @@ export abstract class BaseService<T> {
   }
 
   public async findAll(queryParams: QueryParams): Promise<ResponseDataDTO<T>> {
+    let selectString = '';
     const queryBuilder = this.getRepository().createQueryBuilder('table');
     const skip = (queryParams.page - 1) * queryParams.take;
     // console.log(queryParams.orderColumn);
@@ -91,16 +92,32 @@ export abstract class BaseService<T> {
     }
     //iterar por cada una de las propiedades de busqueda
     // console.log(queryParams.filters);
+    // if (queryParams.filters) {
+    //   queryParams.filters.forEach((filter) => {
+    //     let newFilter: Filter = JSON.parse(filter.toString());
+    //     let comparison = this.getComparer(newFilter.comparison);
+    //     // console.log(comparison);
+    //     let selectString = `${newFilter.property} ${comparison} '${newFilter.comparison === Comparison.LIKE ? '%' : ''
+    //       }${newFilter.value}${newFilter.comparison === Comparison.LIKE ? '%' : ''
+    //       }'`;
+    //     queryBuilder.where(selectString);
+    //   });
+    // }
+
     if (queryParams.filters) {
+      let cont = queryParams.filters.length;
       queryParams.filters.forEach((filter) => {
         let newFilter: Filter = JSON.parse(filter.toString());
         let comparison = this.getComparer(newFilter.comparison);
-        // console.log(comparison);
-        let selectString = `${newFilter.property} ${comparison} '${newFilter.comparison === Comparison.LIKE ? '%' : ''
+        selectString = selectString + `table.${newFilter.property} ${comparison} '${newFilter.comparison === Comparison.LIKE ? '%' : ''
           }${newFilter.value}${newFilter.comparison === Comparison.LIKE ? '%' : ''
           }'`;
-        queryBuilder.where(selectString);
+        if (cont > 1) {
+          selectString = selectString + ' AND ';
+          cont--;
+        }
       });
+      queryBuilder.where(selectString);
     }
     //paginar
     queryBuilder.skip(skip ? skip : 0).take(queryParams.take || 10);
