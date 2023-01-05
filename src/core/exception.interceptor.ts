@@ -46,7 +46,6 @@ export class AllExceptionsFilter<T> implements ExceptionFilter {
     if (!Array.isArray(message)){
       message =[message];
     }
-    console.log(message);
     response.status(statusCode).json({
       //error: {
       //timestamp: new Date().toISOString(),
